@@ -28,7 +28,10 @@ app = firebase_admin.initialize_app(cred_obj, {
 
 ref1 = db.reference("/cmd/client_car_request/1")
 data1={"client_id":"85"}
-ref1.child(get_now_timestamp()).set(data1)
+D=ref1.get()
+for id, info in D.items():
+    for key in info:
+        val=info[key]
+print(val)    
     
-    
-time.sleep(1)
+

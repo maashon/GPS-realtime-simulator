@@ -27,11 +27,10 @@ extern "C" {
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <algorithm>
 
 using namespace std;
 struct itimerval timer;
-int pCount=0;
+int count=0;
 int carID=-1;
 int pointNumber=0;
 bool carAvailability=true;
@@ -45,13 +44,11 @@ struct coordinate{
   vector<coordinate> points;
 void handlersetitimer(int signalnumber)
 {
-  pCount++;
-  
-    string comand="python sendLocation.py "+to_string(carID)+" "+points[pCount].latitude+" "+points[pCount].longtitude;
-    if (pCount==pointNumber){
-    pCount=0;
-    reverse(points.begin(),points.end());
+  count++;
+  if (count==pointNumber){
+    raise(SIGTERM);
     }
+    string comand="python sendLocation.py "+to_string(carID)+" "+points[count].latitude+" "+points[count].longtitude;
     int n = comand.length();
     char char_command[n + 1];
     strcpy(char_command, comand.c_str());
@@ -71,7 +68,7 @@ int main(int argc, char *argv[])
 
   timer.it_interval.tv_sec = 2;   /* it will be repeated after 3 seconds */
   timer.it_interval.tv_usec = 0;  /* usec - microseconds - 10^(-6) seconds */
-  timer.it_value.tv_sec = 10;      /* remaining time till expiration */
+  timer.it_value.tv_sec = 2;      /* remaining time till expiration */
   timer.it_value.tv_usec = 0;
 
   setitimer(ITIMER_REAL, &timer, NULL); //result = 0, if it is good
@@ -84,7 +81,7 @@ int main(int argc, char *argv[])
       }
       std::string adress="";
       adress=to_string(carID)+".dat";
-      cout<<adress<<"opended the file."<<endl;
+      cout<<adress<<"opended the file."endl;
       ifstream MyReadFile(adress);
       string line;
       coordinate c;
@@ -101,7 +98,6 @@ int main(int argc, char *argv[])
         
         }
       MyReadFile.close();
-      cout<<"done reading the file data"<<endl;
       //initializing the car
       string comand="python init.py "+to_string(carID);
       int n = comand.length();
@@ -109,19 +105,11 @@ int main(int argc, char *argv[])
       strcpy(char_command, comand.c_str());
       system(char_command);
       // setting the listener
-      cout<<"done initializing the car"<<endl;
-      string comand2="python makeCar.py "+to_string(carID);
-      int n2 = comand2.length();
-      char char_command2[n2 + 1];
-      strcpy(char_command2, comand2.c_str());
+      comand="python listener.py "+to_string(carID);
+      n = comand.length();
+      char char_command2[n + 1];
+      strcpy(char_command2, comand.c_str());
       system(char_command2);
-      
-      string comand3="python listener.py "+to_string(carID);
-      int n3 = comand3.length();
-      char char_command3[n3 +1];
-      strcpy(char_command3, comand3.c_str());
-      system(char_command3);
-      cout<<"done setting the listener"<<endl;
       
       
                                         

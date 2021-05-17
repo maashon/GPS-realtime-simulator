@@ -1,0 +1,14 @@
+{apiKey: "AIzaSyDK0Eb03nwkrOP-lD55Ha3rgmYdqBNVdXo",
+authDomain: "embeddedtesting.firebaseapp.com",
+databaseURL: "https://embeddedtesting-default-rtdb.firebaseio.com",
+projectId: "embeddedtesting",
+storageBucket: "embeddedtesting.appspot.com"}
+
+
+
+
+import firebase_admin
+from firebase_admin import credentials
+
+cred = credentials.Certificate("path/to/serviceAccountKey.json")
+firebase_admin.initialize_app(cred)
