@@ -12,3 +12,7 @@ from firebase_admin import credentials
 
 cred = credentials.Certificate("path/to/serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
+
+
+
+https://console.firebase.google.com/u/0/project/embeddedtesting/database/embeddedtesting-default-rtdb/data

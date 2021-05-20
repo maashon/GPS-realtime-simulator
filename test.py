@@ -26,8 +26,8 @@ app = firebase_admin.initialize_app(cred_obj, {
     "databaseURL": "https://embeddedtesting-default-rtdb.firebaseio.com"
 })
 
-ref1 = db.reference("/cmd/client_car_request/1")
-data1={"client_id":"85"}
+ref1 = db.reference("/cmd/client_car_request/5")
+data1={"client_id":"1"}
 ref1.child(get_now_timestamp()).set(data1)
     
     

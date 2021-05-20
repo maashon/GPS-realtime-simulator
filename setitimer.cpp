@@ -69,9 +69,9 @@ int main(int argc, char *argv[])
   sigact.sa_flags = 0;               //no special behaviour
   sigaction(SIGALRM, &sigact, NULL); //an alarm signal is set
 
-  timer.it_interval.tv_sec = 2;   /* it will be repeated after 3 seconds */
+  timer.it_interval.tv_sec = 4;   /* it will be repeated after 3 seconds */
   timer.it_interval.tv_usec = 0;  /* usec - microseconds - 10^(-6) seconds */
-  timer.it_value.tv_sec = 10;      /* remaining time till expiration */
+  timer.it_value.tv_sec = 12;      /* remaining time till expiration */
   timer.it_value.tv_usec = 0;
 
   setitimer(ITIMER_REAL, &timer, NULL); //result = 0, if it is good
@@ -82,9 +82,12 @@ int main(int argc, char *argv[])
     }else{
       carID=atoi(argv[1]);
       }
+      srand(time(NULL));
+      int fileNumber=3;
+      int fName=(rand()%fileNumber)+1;
       std::string adress="";
-      adress=to_string(carID)+".dat";
-      cout<<adress<<"opended the file."<<endl;
+      adress=to_string(fName)+".dat";
+      cout<<adress<<" opened."<<endl;
       ifstream MyReadFile(adress);
       string line;
       coordinate c;
@@ -101,8 +104,9 @@ int main(int argc, char *argv[])
         
         }
       MyReadFile.close();
-      cout<<"done reading the file data"<<endl;
+      cout<<"Done reading the file data"<<endl;
       //initializing the car
+      /*
       string comand="python init.py "+to_string(carID);
       int n = comand.length();
       char char_command[n + 1];
@@ -110,24 +114,22 @@ int main(int argc, char *argv[])
       system(char_command);
       // setting the listener
       cout<<"done initializing the car"<<endl;
+      * */
       string comand2="python makeCar.py "+to_string(carID);
       int n2 = comand2.length();
       char char_command2[n2 + 1];
       strcpy(char_command2, comand2.c_str());
       system(char_command2);
+      cout<<"Done making the car"<<endl;
       
       string comand3="python listener.py "+to_string(carID);
       int n3 = comand3.length();
       char char_command3[n3 +1];
       strcpy(char_command3, comand3.c_str());
       system(char_command3);
-      cout<<"done setting the listener"<<endl;
       
       
-                                        
-while(1){
-  
-  
-  }
+      
+                
   return 0;
 }

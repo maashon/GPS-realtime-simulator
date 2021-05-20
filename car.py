@@ -35,7 +35,7 @@ def sendAv(carID,availability):
     #current_time = now.strftime("%Y%m%d%H%M%S")
     #availabilityData={get_now_timestamp():availability} 
     fb = db.reference(avTopic)
-    fb.child(get_now_timestamp()).set({True})
+    fb.child(get_now_timestamp()).set({availability})
     #fb.push().set(availabilityData)
 def listener(event):
     

@@ -28,4 +28,3 @@ def sendAv(carID,availability):
     fb.child(get_now_timestamp()).set(True)
 carId=sys.argv[1]
 sendAv(carId,True)
-print("done initing the app")

@@ -25,11 +25,12 @@ def sendAck(carID,ClientID,responce):
 def sendAv(carID,availability):
     avTopic="/car_availability/"+carID
     fb = db.reference(avTopic)
-    fb.child(get_now_timestamp()).set(True)
+    fb.child(get_now_timestamp()).set(availability)
     
     
 def listener(event):
     D=event.data
+   
     try:
         client_id=D.get("client_id")
         msg="The client "+client_id+" requested the car. enter 1 to accept and 0 to deny:"
@@ -37,10 +38,17 @@ def listener(event):
         if responce=="1":
             sendAck(carId,client_id,True)
             sendAv(carId,False)
+            print("The car is dedicated to the user.")
+            req=input("Enter 'C' to drop the client : ")
+            if req=='c':
+                sendAv(carId,True);
+                print("The client was dropped.")
         else:
             sendAck(carId,client_id,False)
-    except:
+    except Exception as e:
         return
+        
+        
     
     
 FIREBASE_CERTIFICATE_PATH = 'key.json'
